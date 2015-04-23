@@ -1,25 +1,79 @@
-## Laravel PHP Framework
+# Laravel Sage Pay
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This package will provide the base functionality for using the Sagepay Server option. It is a work in progress, however it has been
+developed with the other Sagepay integrations in mind. It is aimed at Laravel 4.2.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+## Installation
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+I'll tell you later, yo.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Validation
 
-## Official Documentation
+With the nature of the data being managed by this application, validation is a somewhat paramount. All card data is encrypted during communications with Sage however we need to ensure the data being sent is not malformed. Thankfuly, Sage's example PHP integration (http://www.sagepay.co.uk/support/find-an-integration-document/server-integration-documents) provides some robust validation rules that can be applied in your controller code. 
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+### Validating Billing and Dispatch Addresses
 
-### Contributing To Laravel
+The minimum required details for a UK booking address.
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+```php
+    // set rules billing/dispatch address
+    $rules = array(
+        'first_name' => array(
+            'required',
+            'max:20',
+            'regex:/^[a-zA-Z\xC0-\xFF0-9\s\\\\\/&\.\']*$/'
+        ),
+        'last_name'  => array(
+            'required',
+            'max:20',
+            'regex:/^[a-zA-Z\xC0-\xFF0-9\s\\\\\/&\.\']*$/'
+        ),
+        'b_address_1'  => array(
+            'required',
+            'max:100',
+            'regex:/^[a-zA-Z\xC0-\xFF0-9\s\+\'\\\\\/&:,\.\-()]*$/'
+        ),
+        'b_address_2'   => array(
+            'required',
+            'max:100',
+            'regex:/^[a-zA-Z\xC0-\xFF0-9\s\+\'\\\\\/&:,\.\-()]*$/'
+        ),
+        'b_city'       => array(
+            'required',
+            'max:40',
+            'regex:/^[a-zA-Z\xC0-\xFF0-9\s\+\'\\\\\/&:,\.\-()]*$/'
+        ),
+        'b_county' => array  'required',
+            'max:40',
+            'regex:/^[a-zA-Z\xC0-\xFF0-9\s\+\'\\\\\/&:,\.\-()]*$/'
+        ),
+        'b_postcode' => array(
+            'required',
+            'max:10',
+            'regex:/^[a-zA-Z0-9\s-]*$/',
+        )
+    );
+    
+    // validate user input
+    $validate = Validator::make(Input::all(), $rules);
+     
+```
+Sagepay requires a delivery address to be sent during transaction. If the products on the site don't require delivery, simply use their billing address for the dispatch address details. 
 
-### License
+## To Do
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+- Add View and Controller Code from proprietry into publishable /View and /Controller folders
+- Explain in this ReadMe the details of the return notification URL
+- Migration table for Sagepay storage of transactions
+- Move Status options from controller into config
+- Move the registration and listening for notification into the Sagepay class itself to reduce user code
+- Move the validation details above into a Customer Validation class which extends a validation interface
+
+## Contributing
+
+Looking for any contributers willing to help develop for the other integration methods, namely: Form and Server-Direct.
+This package is being developed alongside a proprietry piece of a software so public controllers and views have not been used -- that's not to say the project couldn't do with them. Contact maltex.dev@gmail.com for access requests.
+
+## License
+
+Copyright to Cripps Barn Group 2014
