@@ -1,0 +1,23 @@
+{
+    "name": "maltex/sagepay",
+    "description": "",
+    "authors": [
+        {
+            "name": "James Bennett",
+            "email": "maltex.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Maltex\\Sagepay\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
