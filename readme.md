@@ -5,7 +5,7 @@ developed with the other Sagepay integrations in mind. It is aimed at Laravel 4.
 
 ## Installation
 
-I'll tell you later, yo.
+Coming Soon!
 
 ## Validation
 
@@ -76,5 +76,5 @@ This package is being developed alongside a proprietry piece of a software so pu
 
 ## License
 
-Copyright to Cripps Barn Group 2014
+LaraSage is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
